@@ -2,3 +2,4 @@ build_ffmpeg
 build_opencv
 
 sample/edge/build
+sample/detect/build

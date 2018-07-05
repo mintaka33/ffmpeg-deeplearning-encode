@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "functional": "cpp",
+        "future": "cpp",
+        "istream": "cpp"
+    }
+}
