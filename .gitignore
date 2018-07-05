@@ -1,4 +1,4 @@
 build_ffmpeg
 build_opencv
 
-sample/build
+sample/edge/build
