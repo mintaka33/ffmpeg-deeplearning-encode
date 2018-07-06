@@ -2,6 +2,6 @@ build_ffmpeg
 build_opencv
 build_libdetect
 
-libdetect/build
 sample/edge/build
 sample/detect/build
+sample/detect_app/build
