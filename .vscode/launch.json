@@ -5,6 +5,30 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "detect-app",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/sample/detect_app/build/detect_app",
+            "args": [
+                "--model=${workspaceFolder}/models/MobileNetSSD_deploy.caffemodel",
+                "--config=${workspaceFolder}/models/MobileNetSSD_deploy.prototxt.txt",
+                "--classes=${workspaceFolder}/models/voc.names",
+                "--input=~${workspaceFolder}/test/test.mp4"
+            ],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
             "name": "sample-detect",
             "type": "cppdbg",
             "request": "launch",
