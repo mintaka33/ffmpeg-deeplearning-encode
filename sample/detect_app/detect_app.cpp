@@ -1,16 +1,16 @@
 #include "detector.h"
 
-int main()
+int main(int argc, char ** argv)
 {
-    String cfgFile = "MobileNetSSD_deploy.prototxt.txt";
-    String modelFile = "MobileNetSSD_deploy.caffemodel";
+    String cfgFile = "../../../models/MobileNetSSD_deploy.prototxt.txt";
+    String modelFile = "../../../models/MobileNetSSD_deploy.caffemodel";
 
     DNNDetector detector;
     detector.initNet(cfgFile, modelFile, "caffe");
     std::vector<ObjectInfo> objInfo;
 
     // Open a video file or an image file or a camera stream.
-    String inputFile = "test.mp4";
+    String inputFile = "../../../test/test.mp4";
     VideoCapture cap;
     cap.open(inputFile);
 
