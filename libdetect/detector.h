@@ -9,8 +9,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-namespace odc
-{
+
 using namespace cv;
 using namespace dnn;
 
@@ -34,8 +33,8 @@ public:
     std::vector<ObjectInfo>& detectFrame(Mat* inputFrame);
 
 private:
-    std::vector<String> DNNDetector::getOutputsNames(const Net& net);
-    void DNNDetector::postprocess(Mat& frame, const std::vector<Mat>& outs, Net& net);
+    std::vector<String> getOutputsNames(const Net& net);
+    void postprocess(Mat& frame, const std::vector<Mat>& outs, Net& net);
     void addObject(int id, double confidence, int left, int top, int right, int bottom);
     std::string getName(int classId);
 
@@ -55,4 +54,3 @@ private:
     std::vector<std::string> vocNames; // class name of Pascal VOC training set
     std::vector<std::string> cocoNames; // class name of VOCO training set
 };
-}

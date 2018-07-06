@@ -1,9 +1,6 @@
 
 #include "detector.h"
 
-namespace odc
-{
-
 DNNDetector::DNNDetector()
 {
     vocNames = { "aeroplane", "bicycle", "bird", "boat",
@@ -190,6 +187,4 @@ void DNNDetector::postprocess(Mat& frame, const std::vector<Mat>& outs, Net& net
     {
         CV_Error(Error::StsNotImplemented, "Unknown output layer type: " + outLayerType);
     }
-}
-
 }
