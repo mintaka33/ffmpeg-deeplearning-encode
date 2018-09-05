@@ -7,6 +7,11 @@ A E2E solution for Video Capturing, Processing, Encoding and Transmitting (CPET)
 mkdir build_opencv
 cd build_opencv
 
+sudo apt update
+sudo apt upgrade
+# opencv will link with shared ffmepg library, install offical ffmpeg
+sudo apt install ffmpeg
+
 # install dependencies
 # ubuntu 16.04
 sudo apt install build-essential cmake pkg-config \
@@ -17,8 +22,6 @@ libgtk2.0-dev libgtk-3-dev \
 libatlas-base-dev gfortran \
 python2.7-dev python3-dev
 # ubuntu 18.04
-sudo apt update
-sudo apt upgrade
 sudo apt install build-essential cmake unzip pkg-config \
 libjpeg-dev libpng-dev libtiff-dev \
 libavcodec-dev libavformat-dev libswscale-dev libv4l-dev \
