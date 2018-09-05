@@ -8,19 +8,30 @@ mkdir build_opencv
 cd build_opencv
 
 # install dependencies
-sudo apt install build-essential cmake pkg-config
-sudo apt install libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev
-sudo apt install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
-sudo apt install libxvidcore-dev libx264-dev
-sudo apt install libgtk2.0-dev libgtk-3-dev
-sudo apt install libatlas-base-dev gfortran
-sudo apt install python2.7-dev python3-dev
+# ubuntu 16.04
+sudo apt install build-essential cmake pkg-config \
+libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev \
+libavcodec-dev libavformat-dev libswscale-dev libv4l-dev \
+libxvidcore-dev libx264-dev \
+libgtk2.0-dev libgtk-3-dev \
+libatlas-base-dev gfortran \
+python2.7-dev python3-dev
+# ubuntu 18.04
+sudo apt update
+sudo apt upgrade
+sudo apt install build-essential cmake unzip pkg-config \
+libjpeg-dev libpng-dev libtiff-dev \
+libavcodec-dev libavformat-dev libswscale-dev libv4l-dev \
+libxvidcore-dev libx264-dev \
+libgtk-3-dev \
+libatlas-base-dev gfortran \
+python3-dev
 
 # if want to use Intel IPP library for better performance, set -DWITH_IPP=ON, 
 # but need take some time to download IPP
 cmake -DWITH_IPP=OFF -DWITH_HDF5=OFF ../opencv 
 
-make -j8
+make -j$(nproc)
 sudo make install
 sudo ldconfig
 
