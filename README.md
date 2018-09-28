@@ -69,7 +69,15 @@ sudo apt install libx264-dev libx265-dev
 
 make -j8
 sudo make install
+
+# build test
+cd build && mkdir test
+cd test
+cmake ../../test
+make
+
 ```
+
 
 # FFmpeg 
 
