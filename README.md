@@ -4,8 +4,8 @@ A E2E solution for Video Capturing, Processing, Encoding and Transmitting (CPET)
 # Build
 ```bash
 # build opencv
-mkdir build_opencv
-cd build_opencv
+mkdir build && cd build
+mkdir opencv && cd opencv
 
 sudo apt update
 sudo apt upgrade
@@ -32,15 +32,15 @@ python3-dev
 
 # if want to use Intel IPP library for better performance, set -DWITH_IPP=ON, 
 # but need take some time to download IPP
-cmake -DWITH_IPP=OFF -DWITH_HDF5=OFF ../opencv 
+cmake -DWITH_IPP=OFF -DWITH_HDF5=OFF ../../opencv
 
 make -j$(nproc)
 sudo make install
 sudo ldconfig
 
 # build ffmpeg
-mkdir build_ffmpeg
-cd build_ffmpeg
+mkdir build && cd build
+mkdir ffmpeg && cd ffmpeg
 
 $ sudo apt-get update -qq && sudo apt-get -y install \
 autoconf \
@@ -93,7 +93,6 @@ sudo make install
 
 ## ffmpeg server streaming usage
 ```bash
-
 # server (note: 10.239.141.208 is client IP)
 ./ffmpeg -vaapi_device /dev/dri/renderD128 -hwaccel vaapi -f v4l2 -i /dev/video0 \
 -vf 'format=nv12,hwupload,scale_vaapi=640:480:nv12' -vframes 10000 -c:v h264_vaapi \
@@ -101,5 +100,4 @@ sudo make install
 
 # client (note: 10.239.141.20 is server IP)
 ffplay udp://10.239.141.20:1234
-
 ```
