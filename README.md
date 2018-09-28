@@ -70,6 +70,12 @@ sudo apt install libx264-dev libx265-dev
 make -j8
 sudo make install
 
+# build object detection library
+cd build && mkdir libdetect
+cd libdetect
+cmake ../../libdetect
+make
+
 # build test
 cd build && mkdir test
 cd test
