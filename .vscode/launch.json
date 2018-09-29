@@ -24,7 +24,7 @@
                 "100",
                 "-c:v",
                 "h264_vaapi",
-                "out.mp4",
+                "/tmp/out.mp4",
                 "-y",
             ],
             "stopAtEntry": true,

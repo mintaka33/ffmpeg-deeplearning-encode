@@ -149,7 +149,7 @@ set(MEDIA_COMPILER_FLAGS_RELEASE "")
 if(${UFO_VARIANT} STREQUAL "default")
     set(MEDIA_COMPILER_FLAGS_RELEASE
         ${MEDIA_COMPILER_FLAGS_RELEASE}
-        -O2
+        -O0
         -D_FORTIFY_SOURCE=2
         -fno-omit-frame-pointer
     )
@@ -176,7 +176,7 @@ if(NOT ${PLATFORM} STREQUAL "android")
 endif()
 
 set(MEDIA_COMPILER_FLAGS_RELEASEINTERNAL
-    -O2
+    -O0
     -fno-omit-frame-pointer
 )
 
