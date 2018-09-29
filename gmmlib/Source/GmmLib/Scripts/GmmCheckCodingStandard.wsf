@@ -1,0 +1,146 @@
+//============================================================================
+// Copyright(c) 2017 Intel Corporation
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files(the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and / or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+// OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+//============================================================================
+<job>
+<script>
+
+// Globals
+var fso = WScript.CreateObject("Scripting.FileSystemObject");
+var err_count = 0;
+var in_block_comment = false;
+
+// Main function
+function main() {
+    try {
+        var dir;
+
+        // Get the directory to parse from the command-line
+        {
+            dir = WScript.Arguments.Unnamed.Item(0);
+            if (!fso.folderExists(dir)) {
+                print("ERROR: Cannot find directory " + dir);
+                err_count++;
+                return;
+            }
+            dir = fso.getAbsolutePathName(dir);
+        }
+
+        print("Checking coding standard in " + dir);
+
+        // Loop thru each line of each source file and look for coding standard violations
+        {
+            foreach_line(dir, function(file, line, linenum) {
+                var is_comment_line = false;
+
+                if (line.match(/\/\*/)) {
+                    in_block_comment = true;
+                }
+                if (line.match(/\*\//)) {
+                    in_block_comment = false;
+                }
+                if (line.match(/^\s*\/\//) || in_block_comment) {
+                    is_comment_line = true;
+                }
+                if (line.match(/\t/)) {
+                    report_error(file, linenum, "Found tabs. Check your IDE settings and replace tabs with spaces.");
+                };
+            })
+        }
+    } catch (e) {
+        print("ERROR: Exception caught in main(). " + e.message);
+        err_count++;
+        return;
+    }
+}
+
+// Loops thru each file recursively and applies a function to
+// every line
+function foreach_line(dir, apply) {
+    try {
+        var folder;
+
+        // Parse all source files in this directory
+        {
+            folder = fso.getFolder(dir);
+            var files = new Enumerator(folder.Files);
+            for (; !files.atEnd(); files.moveNext()) {
+                var path = files.item().path;
+                var path_l = path.toLowerCase();
+                if (path_l.match(/(\.cpp|\.hpp|\.h)$/)) {
+                    parse_file(path, apply);
+                }
+            }
+        }
+
+        // Recurse through all subfolders
+        {
+            var subfolders = new Enumerator(folder.SubFolders);
+            for (; !subfolders.atEnd(); subfolders.moveNext()) {
+                foreach_line(subfolders.item().path, apply);
+            }
+        }
+    }
+    catch (e) {
+        print("ERROR: Failed to parse directory " + dir + ". " + e.message);
+        err_count++;
+        return;
+    }
+}
+
+// Parse every line in the file and applies the
+// given function.
+function parse_file(path, apply) {
+    try {
+        in_block_comment = false;
+        var f = fso.openTextFile(path, 1);
+        var i = 0;
+        while (!f.atEndOfStream) {
+            i++;
+            var line = f.readLine();
+            try {
+                apply(path, line, i);
+            } catch(e) {
+                report_error(path, i, "Failed to parse line. " + e.message);
+            }
+        }
+        f.close();
+    } catch (e) {
+        print("ERROR: Failed to open " + path + ". " + e.message);
+        err_count++;
+    }
+}
+
+// Prints a message
+function print(msg) {
+    WScript.echo(msg);
+}
+
+// Prints an error message in a VisualStudio-friendly format
+function report_error(file, linenum, msg) {
+    print(file + "(" + linenum + ") : error : " + msg);
+    err_count++;
+}
+
+main();
+print("\nFound " + err_count + " error(s)\n");
+WScript.quit(err_count);
+</script>
+</job>
