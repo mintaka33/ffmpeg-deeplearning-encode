@@ -1,6 +1,8 @@
 # Build
+
+## build opencv
+
 ```bash
-# build opencv
 mkdir build && cd build
 mkdir opencv && cd opencv
 
@@ -34,8 +36,11 @@ cmake -DWITH_IPP=OFF -DWITH_HDF5=OFF ../../opencv
 make -j$(nproc)
 sudo make install
 sudo ldconfig
+```
 
-# build ffmpeg
+## build ffmpeg
+
+```bash
 mkdir build && cd build
 mkdir ffmpeg && cd ffmpeg
 
@@ -66,14 +71,42 @@ sudo apt install libx264-dev libx265-dev
 
 make -j8
 sudo make install
+```
+## build driver
 
-# build object detection library
+```bash
+# build libva
+cd build && mkdir libva && cd libva
+../../libva/autogen.sh CFLAGS=-g CXXFLAGS=-g
+make
+sudo make install
+
+# build gmmlib
+cd build && mkdir gmm && cd gmm
+cmake ../../gmmlib
+make -j$(nproc)
+sudo make install
+
+# build media-driver
+cd build && mkdir driver && cd driver
+cmake -DCMAKE_BUILD_TYPE=Debug ../../media-driver
+make -j$(nproc)
+sudo make install
+
+```
+
+## build object detection library
+
+```bash
 cd build && mkdir libdetect
 cd libdetect
 cmake ../../libdetect
 make
+```
 
-# build test
+## build test
+
+```bash
 cd build && mkdir test
 cd test
 cmake ../../test
