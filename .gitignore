@@ -1,4 +1,11 @@
-build
+build/detect
+build/driver
+build/ffmpeg
+build/gmm
+build/libdetect
+build/libva
+build/opencv
+build/test
 
 sample/edge/build
 sample/detect/build
