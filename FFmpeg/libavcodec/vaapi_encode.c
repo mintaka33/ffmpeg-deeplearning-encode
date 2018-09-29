@@ -376,6 +376,27 @@ static int vaapi_encode_issue(AVCodecContext *avctx,
         }
     }
 
+    // DemoEncROI: set ROI buffer
+    if (1) {
+        int a = sizeof(ctx->roi_params.misc);
+        int b = sizeof(ctx->roi_params.roi);
+        int c = sizeof(ctx->roi_params);
+        int d = sizeof(ctx->roi_params.misc.type);
+
+        ctx->roi_params.misc.type = VAEncMiscParameterTypeROI;
+        ctx->roi_params.roi.num_roi = 5;
+        ctx->roi_params.roi.roi = &ctx->roi_data;
+        ctx->roi_params.roi.max_delta_qp = 50;
+        ctx->roi_params.roi.min_delta_qp = 20;
+        ctx->roi_params.roi.roi_flags.bits.roi_value_is_qp_delta = 1;
+        err = vaapi_encode_make_param_buffer(avctx, pic,
+                                             VAEncMiscParameterBufferType,
+                                             (char*)&ctx->roi_params.misc,
+                                             sizeof(ctx->roi_params));
+        if (err < 0)
+            goto fail;
+    }
+
     vas = vaBeginPicture(ctx->hwctx->display, ctx->va_context,
                          pic->input_surface);
     if (vas != VA_STATUS_SUCCESS) {
@@ -884,6 +905,12 @@ int ff_vaapi_encode2(AVCodecContext *avctx, AVPacket *pkt,
             goto fail;
         pic->input_surface = (VASurfaceID)(uintptr_t)input_image->data[3];
         pic->pts = input_image->pts;
+
+        // DemoEncROI
+        pic->x = input_image->x;
+        pic->y = input_image->y;
+        pic->w = input_image->w;
+        pic->h = input_image->h;
 
         if (ctx->input_order == 0)
             ctx->first_pts = pic->pts;

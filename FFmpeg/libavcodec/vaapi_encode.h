@@ -59,6 +59,12 @@ typedef struct VAAPIEncodePicture {
     int64_t         encode_order;
     int64_t         pts;
 
+    // DemoEncROI
+    int             x;
+    int             y;
+    int             w;
+    int             h;
+
     int             type;
     int             input_available;
     int             encode_issued;
@@ -163,6 +169,13 @@ typedef struct VAAPIEncodeContext {
         VAEncMiscParameterBufferQualityLevel quality;
     } quality_params;
 #endif
+
+    // DemoEncROI: ROI parameters
+    struct {
+        VAEncMiscParameterBuffer misc;
+        VAEncMiscParameterBufferROI roi;
+    } roi_params;
+    VAEncROI roi_data;
 
     // Per-sequence parameter structure (VAEncSequenceParameterBuffer*).
     void           *codec_sequence_params;

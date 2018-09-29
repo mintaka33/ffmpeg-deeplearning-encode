@@ -887,6 +887,13 @@ static int vaapi_transfer_data_to(AVHWFramesContext *hwfc,
     map->width  = src->width;
     map->height = src->height;
 
+    // DemoEncROI
+    static int debug = 0;
+    dst->x = debug++;
+    dst->y = 0;
+    dst->w = 64;
+    dst->h = 64;
+
     err = av_frame_copy(map, src);
     if (err)
         goto fail;

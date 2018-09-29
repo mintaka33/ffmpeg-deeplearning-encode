@@ -583,6 +583,20 @@ typedef struct AVFrame {
      */
 
     /**
+     * @anchor EncROI
+     * @name EncROI
+     * DemoEncROI
+     * @{
+     */
+    int x;
+    int y;
+    int w;
+    int h;
+    /**
+     * @}
+     */
+
+    /**
      * AVBufferRef for internal use by a single libav* library.
      * Must not be used to transfer data between libraries.
      * Has to be NULL when ownership of the frame leaves the respective library.
