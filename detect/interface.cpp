@@ -5,7 +5,8 @@ extern "C" {
 
 DNNDetector* create_detector()
 {
-    return nullptr;
+    DNNDetector* p = new DNNDetector();
+    return p;
 }
 
 int init_detector(DNNDetector* d)
