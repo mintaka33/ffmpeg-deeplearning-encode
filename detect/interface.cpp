@@ -70,7 +70,7 @@ int detect_frame(DNNDetector* d, char* buf, int pitch, int height, RegionInfo* r
         Mat frameBGR;
         cvtColor(frame, frameBGR, 99); // CV_YUV2BGR_YV12 = 99
 
-        // imwrite("test.bmp", frameBGR);
+        //imwrite("test.bmp", frameBGR);
 
         std::vector<ObjectInfo> objInfo;
         objInfo = d->detectFrame(&frameBGR);
@@ -79,7 +79,7 @@ int detect_frame(DNNDetector* d, char* buf, int pitch, int height, RegionInfo* r
         ObjectInfo roiInfo = {};
         for (auto o : objInfo)
         {
-            if (o.name == "person" && o.confidence >0.9)
+            if (o.name == "person" && o.confidence >0.8)
             {
                 detected = true;
                 roiInfo = o;
@@ -89,11 +89,12 @@ int detect_frame(DNNDetector* d, char* buf, int pitch, int height, RegionInfo* r
 
         if (detected) {
             reg->detected = true;
+            memcpy(reg->name, roiInfo.name.c_str(), roiInfo.name.length());
             reg->confidence = roiInfo.confidence;
             reg->x = roiInfo.left;
             reg->y = roiInfo.top;
-            reg->w = roiInfo.right;
-            reg->h = roiInfo.bottom;
+            reg->w = roiInfo.right - roiInfo.left;
+            reg->h = roiInfo.bottom - roiInfo.top;
         }
     }
 
