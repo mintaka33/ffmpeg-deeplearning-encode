@@ -11,6 +11,15 @@ DNNDetector* create_detector()
 
 int init_detector(DNNDetector* d)
 {
+    std::string cfgFile = "/home/fresh/data/work/VideoCPET/models/MobileNetSSD_deploy.prototxt.txt";
+    std::string modelFile = "/home/fresh/data/work/VideoCPET/models/MobileNetSSD_deploy.caffemodel";
+    std::string framework = "caffe";
+    
+    if(!d)
+        return -1;
+
+    d->initNet(cfgFile, modelFile, framework);
+
     return 0;
 }
 

@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 
 project( test )
 
+set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
+
 include_directories ("${PROJECT_SOURCE_DIR}/../../detect")
 link_directories("${PROJECT_SOURCE_DIR}/../../build/detect")
 
