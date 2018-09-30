@@ -26,7 +26,7 @@ int main(int argc, char** argv)
     for (int i=0; i<10; i++){
         n = fread(nv12, size, 1, pf);
         memset(&reg, 0, sizeof(reg));
-        ret = detect_frame(dtr, nv12, pitch, height, &reg);
+        ret = detect_frame(dtr, nv12, nv12 + pitch * height, pitch, height, &reg);
         if(ret != 0){
             printf("detect frame failed!\n");
             return -1;

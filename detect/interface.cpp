@@ -6,26 +6,25 @@ extern "C" {
 static char* dtr_yv12_buf;
 DNNDetector g_detector;
 
-int yv12_to_nv12(char* srcnv12, char* dstyv12, int pitch, int height)
+int nv12_to_yv12(char* src_y, char* src_uv, char* dst, int pitch, int height)
 {
-    if (!srcnv12 || !dstyv12)
+    if (!src_y || !src_y || !dst)
         return -1;
 
     // copy y plane
-    memcpy(dstyv12, srcnv12, pitch * height);
+    memcpy(dst, src_y, pitch * height);
 
     // copy uv plane
-    int uvWidth = pitch /2;
-    int uvHeight = height / 2;
-    char* srcUV = srcnv12 + pitch * height;
-    char* dstU = dstyv12 + pitch * height;
-    char* dstV = dstU + uvWidth * uvHeight;
+    int uv_width = pitch /2;
+    int uv_height = height / 2;
+    char* dst_u = dst + pitch * height;
+    char* dst_v = dst_u + uv_width * uv_height;
     for (int i=0; i<height/2; i++)
     {
         for (int j = 0; j < pitch / 2; j++)
         {
-            dstV[i*uvWidth + j] = srcUV[i*uvWidth * 2 + j * 2];
-            dstU[i*uvWidth + j] = srcUV[i*uvWidth * 2 + j * 2 + 1];
+            dst_v[i*uv_width + j] = src_uv[i*uv_width * 2 + j * 2];
+            dst_u[i*uv_width + j] = src_uv[i*uv_width * 2 + j * 2 + 1];
         }
     }
 
@@ -52,7 +51,7 @@ int init_detector(DNNDetector* d)
     return 0;
 }
 
-int detect_frame(DNNDetector* d, char* buf, int pitch, int height, RegionInfo* reg)
+int detect_frame(DNNDetector* d, char* buf_y, char* buf_uv, int pitch, int height, RegionInfo* reg)
 {
     int size = pitch * height * 3 / 2;
 
@@ -62,7 +61,7 @@ int detect_frame(DNNDetector* d, char* buf, int pitch, int height, RegionInfo* r
             return -1;
     }
 
-    if(yv12_to_nv12(buf, dtr_yv12_buf, pitch, height) != 0)
+    if(nv12_to_yv12(buf_y, buf_uv, dtr_yv12_buf, pitch, height) != 0)
         return -1;
 
     Mat frame = Mat(height * 3 / 2, pitch, CV_8UC1, dtr_yv12_buf);
