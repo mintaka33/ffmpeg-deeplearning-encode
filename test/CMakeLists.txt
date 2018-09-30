@@ -14,8 +14,8 @@ set (CMAKE_CXX_STANDARD 11)
 add_executable( edge edge.cpp )
 target_link_libraries( edge ${OpenCV_LIBS} )
 
-add_executable( detect detect.cpp )
-target_link_libraries( detect ${OpenCV_LIBS} )
+add_executable( test1 test1.cpp )
+target_link_libraries( test1 detect ${OpenCV_LIBS} )
 
-add_executable( detect2 detect2.cpp )
-target_link_libraries( detect2 detect ${OpenCV_LIBS} )
+add_executable( test2 test2.cpp )
+target_link_libraries( test2 detect ${OpenCV_LIBS} )
