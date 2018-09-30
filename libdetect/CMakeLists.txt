@@ -10,7 +10,7 @@ set (CMAKE_CXX_STANDARD 11)
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 
-add_library(libdetect SHARED detector.cpp detector.h)
+add_library(libdetect SHARED detector.cpp detector.h interface.c interface.h)
 
 MESSAGE( STATUS "variable is: " ${OpenCV_LIBS} )
 
