@@ -3,6 +3,13 @@ A E2E solution for Video Capturing, Processing, Encoding and Transmitting (CPET)
 
 # FFmpeg 
 
+## set environment variables
+```bash
+export LIBVA_DRIVER_NAME=iHD
+export LIBVA_DRIVER_PATH=/usr/local/lib/dri/iHD_drv_video.so
+export LD_LIBRARY_PATH=/home/fresh/data/work/VideoCPET/build/detect
+```
+
 ## ffmpeg basic usage
 ```bash
 # USB camera preview
