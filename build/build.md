@@ -98,9 +98,9 @@ sudo make install
 ## build object detection library
 
 ```bash
-cd build && mkdir libdetect
-cd libdetect
-cmake ../../libdetect
+cd build && mkdir detect
+cd detect
+cmake ../../detect
 make
 ```
 

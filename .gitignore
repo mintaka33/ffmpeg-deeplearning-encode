@@ -2,7 +2,7 @@ build/detect
 build/driver
 build/ffmpeg
 build/gmm
-build/libdetect
+build/detect
 build/libva
 build/opencv
 build/test
