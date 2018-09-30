@@ -50,6 +50,7 @@
 #include "pixdesc.h"
 #include "pixfmt.h"
 
+#include "../../detect/interface.h"
 
 typedef struct VAAPIDevicePriv {
 #if HAVE_VAAPI_X11
@@ -888,6 +889,7 @@ static int vaapi_transfer_data_to(AVHWFramesContext *hwfc,
     map->height = src->height;
 
     // DemoEncROI
+    DNNDetector* dtr = create_detector();
     static int debug = 0;
     dst->x = (debug>256)? (debug=0): debug++;
     dst->y = 0;

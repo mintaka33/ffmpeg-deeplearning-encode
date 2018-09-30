@@ -66,8 +66,8 @@ nasm
 
 sudo apt install libx264-dev libx265-dev
 
-../FFmpeg/configure --enable-debug=3 --disable-optimizations \
---enable-libx264 --enable-libx265 --enable-gpl
+../../FFmpeg/configure --enable-debug=3 --disable-optimizations --enable-libx264 --enable-libx265 --enable-gpl \
+--extra-ldflags=-L/home/fresh/data/work/VideoCPET/build/detect --etrac-libs=-ldetect
 
 make -j8
 sudo make install

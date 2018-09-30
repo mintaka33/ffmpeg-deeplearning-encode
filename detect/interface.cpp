@@ -4,6 +4,7 @@
 extern "C" {
 
 static char* dtr_yv12_buf;
+DNNDetector g_detector;
 
 int yv12_to_nv12(char* srcnv12, char* dstyv12, int pitch, int height)
 {
@@ -33,7 +34,7 @@ int yv12_to_nv12(char* srcnv12, char* dstyv12, int pitch, int height)
 
 DNNDetector* create_detector()
 {
-    DNNDetector* p = new DNNDetector();
+    DNNDetector* p = &g_detector; //new DNNDetector();
     return p;
 }
 

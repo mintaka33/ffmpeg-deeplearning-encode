@@ -57,6 +57,10 @@
                     "name": "LIBVA_DRIVER_PATH",
                     "value": "/usr/local/lib/dri/iHD_drv_video.so"
                 },
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "/home/fresh/data/work/VideoCPET/build/detect"
+                },
             ],
             "externalConsole": true,
             "MIMode": "gdb",
