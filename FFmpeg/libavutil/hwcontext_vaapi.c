@@ -889,12 +889,26 @@ static int vaapi_transfer_data_to(AVHWFramesContext *hwfc,
     map->height = src->height;
 
     // DemoEncROI
+    int ret = 0;
+    RegionInfo reg = {};
+    dst->x = dst->y = dst->w = dst->h = 0;
     DNNDetector* dtr = create_detector();
-    static int debug = 0;
-    dst->x = (debug>256)? (debug=0): debug++;
-    dst->y = 0;
-    dst->w = 256;
-    dst->h = 256;
+    if(init_detector(dtr) == 0){
+        ret = detect_frame(dtr, src->data[0], src->data[1], src->width, src->height, &reg);
+        if(ret == 0){
+            if(reg.detected) {
+                dst->x = reg.x;
+                dst->y = reg.y;
+                dst->w = reg.w;
+                dst->h = reg.h;
+            }
+        }
+    }
+    //static int debug = 0;
+    //dst->x = (debug>256)? (debug=0): debug++;
+    //dst->y = 0;
+    //dst->w = 256;
+    //dst->h = 256;
 
     err = av_frame_copy(map, src);
     if (err)
