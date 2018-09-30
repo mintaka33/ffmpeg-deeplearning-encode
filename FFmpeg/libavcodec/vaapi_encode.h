@@ -171,10 +171,7 @@ typedef struct VAAPIEncodeContext {
 #endif
 
     // DemoEncROI: ROI parameters
-    struct {
-        VAEncMiscParameterBuffer misc;
-        VAEncMiscParameterBufferROI roi;
-    } roi_params;
+    char roi_params[4+sizeof(VAEncMiscParameterBufferROI)];
     VAEncROI roi_data;
 
     // Per-sequence parameter structure (VAEncSequenceParameterBuffer*).

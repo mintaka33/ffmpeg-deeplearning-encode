@@ -378,20 +378,22 @@ static int vaapi_encode_issue(AVCodecContext *avctx,
 
     // DemoEncROI: set ROI buffer
     if (1) {
-        int a = sizeof(ctx->roi_params.misc);
-        int b = sizeof(ctx->roi_params.roi);
-        int c = sizeof(ctx->roi_params);
-        int d = sizeof(ctx->roi_params.misc.type);
-
-        ctx->roi_params.misc.type = VAEncMiscParameterTypeROI;
-        ctx->roi_params.roi.num_roi = 5;
-        ctx->roi_params.roi.roi = &ctx->roi_data;
-        ctx->roi_params.roi.max_delta_qp = 50;
-        ctx->roi_params.roi.min_delta_qp = 20;
-        ctx->roi_params.roi.roi_flags.bits.roi_value_is_qp_delta = 1;
+        VAEncMiscParameterBuffer* misc = (VAEncMiscParameterBuffer*)&ctx->roi_params[0];
+        VAEncMiscParameterBufferROI* roi = (VAEncMiscParameterBufferROI*)&ctx->roi_params[4];
+        ctx->roi_data.roi_rectangle.x = pic->x;
+        ctx->roi_data.roi_rectangle.y = pic->y;
+        ctx->roi_data.roi_rectangle.width = pic->w;
+        ctx->roi_data.roi_rectangle.height = pic->h;
+        ctx->roi_data.roi_value = 30; // delta QP
+        misc->type = VAEncMiscParameterTypeROI;
+        roi->num_roi = 1;
+        roi->roi = &ctx->roi_data;
+        roi->max_delta_qp = 40;
+        roi->min_delta_qp = -40;
+        roi->roi_flags.bits.roi_value_is_qp_delta = 1;
         err = vaapi_encode_make_param_buffer(avctx, pic,
                                              VAEncMiscParameterBufferType,
-                                             (char*)&ctx->roi_params.misc,
+                                             (char*)misc,
                                              sizeof(ctx->roi_params));
         if (err < 0)
             goto fail;

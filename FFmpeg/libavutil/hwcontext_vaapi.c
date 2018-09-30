@@ -889,10 +889,10 @@ static int vaapi_transfer_data_to(AVHWFramesContext *hwfc,
 
     // DemoEncROI
     static int debug = 0;
-    dst->x = debug++;
+    dst->x = (debug>256)? (debug=0): debug++;
     dst->y = 0;
-    dst->w = 64;
-    dst->h = 64;
+    dst->w = 256;
+    dst->h = 256;
 
     err = av_frame_copy(map, src);
     if (err)
