@@ -84,7 +84,7 @@ int detect_frame(DNNDetector* d, char* buf_y, char* buf_uv, int pitch, int heigh
         ObjectInfo roiInfo = {};
         for (auto o : objInfo)
         {
-            if (o.name == "person" && o.confidence >0.8)
+            if (o.name == "person" && o.confidence >0.5)
             {
                 detected = true;
                 roiInfo = o;
