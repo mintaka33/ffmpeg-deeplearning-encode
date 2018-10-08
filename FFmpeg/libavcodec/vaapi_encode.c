@@ -384,7 +384,7 @@ static int vaapi_encode_issue(AVCodecContext *avctx,
         ctx->roi_data.roi_rectangle.y = pic->y;
         ctx->roi_data.roi_rectangle.width = pic->w;
         ctx->roi_data.roi_rectangle.height = pic->h;
-        ctx->roi_data.roi_value = 30; // delta QP
+        ctx->roi_data.roi_value = -30; // delta QP
         misc->type = VAEncMiscParameterTypeROI;
         roi->num_roi = 1;
         roi->roi = &ctx->roi_data;
