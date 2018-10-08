@@ -377,9 +377,10 @@ static int vaapi_encode_issue(AVCodecContext *avctx,
     }
 
     // DemoEncROI: set ROI buffer
-    if (1) {
+    if (1 && pic->x > 0 && pic->y > 0 && pic->w > 0 && pic->h > 0) {
         VAEncMiscParameterBuffer* misc = (VAEncMiscParameterBuffer*)&ctx->roi_params[0];
         VAEncMiscParameterBufferROI* roi = (VAEncMiscParameterBufferROI*)&ctx->roi_params[4];
+        roi->num_roi = 0;
         ctx->roi_data.roi_rectangle.x = pic->x;
         ctx->roi_data.roi_rectangle.y = pic->y;
         ctx->roi_data.roi_rectangle.width = pic->w;
