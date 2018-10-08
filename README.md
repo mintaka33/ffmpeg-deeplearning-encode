@@ -20,11 +20,11 @@ export LD_LIBRARY_PATH=/home/fresh/data/work/VideoCPET/build/detect
 
 # capture video and encode (HW)
 ./ffmpeg -vaapi_device /dev/dri/renderD128 -hwaccel vaapi -f v4l2 -i /dev/video0 \
--vf 'format=nv12,hwupload' -vframes 100 -c:v h264_vaapi -qp 50 out.mp4 -y
+-vf 'format=nv12,hwupload' -vframes 100 -c:v h264_vaapi -qp 42 out.mp4 -y
 
 # capture video, scaling+encode (HW)
 ./ffmpeg -vaapi_device /dev/dri/renderD128 -hwaccel vaapi -f v4l2 -i /dev/video0 \
--vf 'format=nv12,hwupload,scale_vaapi=640:480:nv12' -vframes 100 -c:v h264_vaapi -qp 50 out.mp4 -y
+-vf 'format=nv12,hwupload,scale_vaapi=640:480:nv12' -vframes 100 -c:v h264_vaapi -qp 42 out.mp4 -y
 
 ```
 
@@ -32,7 +32,7 @@ export LD_LIBRARY_PATH=/home/fresh/data/work/VideoCPET/build/detect
 ```bash
 # server (note: 10.239.141.208 is client IP)
 ./ffmpeg -vaapi_device /dev/dri/renderD128 -hwaccel vaapi -f v4l2 -i /dev/video0 \
--vf 'format=nv12,hwupload,scale_vaapi=640:480:nv12' -vframes 10000 -c:v h264_vaapi -qp 50 \
+-vf 'format=nv12,hwupload,scale_vaapi=640:480:nv12' -vframes 10000 -c:v h264_vaapi -qp 42 \
 -f mpegts udp://10.239.141.208:1234 -re
 
 # client (note: 10.239.141.20 is server IP)
