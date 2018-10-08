@@ -5,6 +5,7 @@ extern "C" {
 
 static char* dtr_yv12_buf;
 DNNDetector g_detector;
+static int g_init = 0;
 
 int nv12_to_yv12(char* src_y, char* src_uv, char* dst, int pitch, int height)
 {
@@ -42,11 +43,15 @@ int init_detector(DNNDetector* d)
     std::string cfgFile = "/home/fresh/data/work/VideoCPET/models/MobileNetSSD_deploy.prototxt.txt";
     std::string modelFile = "/home/fresh/data/work/VideoCPET/models/MobileNetSSD_deploy.caffemodel";
     std::string framework = "caffe";
+
+    if (g_init)
+        return 0;
     
     if(!d)
         return -1;
 
     d->initNet(cfgFile, modelFile, framework);
+    g_init = 1;
 
     return 0;
 }
